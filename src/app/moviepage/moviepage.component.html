@@ -1,0 +1,11 @@
+<p>
+  moviepage works!
+</p>
+
+<button (click)="click()">jea</button>
+
+<div *ngFor="let movie of movieData">
+  <img  [src]="movie.image" [alt]="movie.name">
+  <h1>{{ movie.name }}</h1>
+  <p>{{ movie.synopsis }}</p>
+</div>
