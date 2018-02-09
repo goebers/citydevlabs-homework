@@ -1,11 +1,50 @@
-<p>
-  moviepage works!
-</p>
+<div class="wrapper">
 
-<button (click)="click()">jea</button>
+  <div class="movie" *ngFor="let movie of movieData">
+    <img (click)="showLightBox(movie.id)" class="movie-image" [src]="movie.image" [alt]="movie.name">
+    <h1>{{ movie.name }}</h1>
+    <p>{{ movie.synopsis }}</p>
+    <p>{{ movie.id }}</p>
+  </div>
 
-<div *ngFor="let movie of movieData">
-  <img  [src]="movie.image" [alt]="movie.name">
-  <h1>{{ movie.name }}</h1>
-  <p>{{ movie.synopsis }}</p>
+  <div class="lightbox" *ngIf="lightBox">
+    <div class="movie">
+        <img class="movie-image" [src]="lightBoxImg" [alt]="movieId">
+        <h1>{{ lightBoxMovie }}</h1>
+        <p>{{ lightBoxMovieSynopsis }}</p>
+    </div>
+    <div class="comments">
+      <div class="comment" *ngFor="let comment of commentData">
+        <h3 (click)="userReviews(comment.username)" class="username">{{ comment.username }}</h3>
+        <p>{{ comment.comment }}</p>
+      </div>
+    </div>
+    <button (click)="lightBox=false;">close movie</button>
+  
+    <div class="user-lightbox" *ngIf="userLightBox">
+      <div class="user">
+        <h1>Listings for {{ userName }}</h1>
+
+        <div class="user-listings" *ngFor="let usrComment of usersComments">
+          <div class="row">
+            <div class="movie-image col-sm">
+                <img class="small-movie-image" [src]="movieData[usrComment.movieId].image">
+            </div>
+            <div class="movie-info col-sm" >
+                <h1> {{ movieData[usrComment.movieId].name }} </h1>
+                <h3> {{ movieData[usrComment.movieId].year }} </h3>
+                <p> {{ movieData[usrComment.movieId].synopsis }} </p>
+            </div>
+        </div>
+          <div class="comment row">
+            <h3> {{ usrComment.comment }} </h3>
+          </div>
+        </div>
+      </div>
+
+      <button (click)="userLightBox=false;" class="user">close {{ userName }} </button>
+    </div>
+
+  </div>
+
 </div>
