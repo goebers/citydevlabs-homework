@@ -1,7 +1,25 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+$primary-font: 'Roboto Condensed', sans-serif;
+$card-color: aqua;
+$bg-color-grey: #efefef;
+$bg-color-dark: rgb(9, 60, 128);
+$bg-color: rgb(10, 82, 175);
+$bg-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+$bg-shadow-hard: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+
+h1, h2, h3, h4, p {
+    font-family: $primary-font;
+}
+
 .wrapper {
     margin: 0;
-    padding: 0;
-    background:#efefef;
+    padding: 20px;
+}
+
+.movie-name {
+    font-weight: bold;
 }
 
 .movie-image {
@@ -9,47 +27,84 @@
     height: auto;
 }
 
-.small-movie-image {
-    max-width: 100px;
-    height: auto;
+.movie {
+    background-color: $card-color;
+    display: block;
+    text-align: center;
+    box-shadow: $bg-shadow;
+    transition: 0.25s;
+    padding: 20px;
+
+    &:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
 }
 
-.movie {
+.movie-info {
     background-color: aqua;
     display: block;
+    text-align: center;
 }
 
 .comments {
-    background-color: brown;
-    height: 150px;
-    overflow-y: scroll;
+    background-color: $bg-color-grey;
+    padding: 35px 10px
 }
 
-.username:hover {
+.comment {
+    position: relative;
+	background: #ff80ff;
+    border-radius: .4em;
+    margin: 35px 10px;
+
+    &::after{
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border: 20px solid transparent;
+        border-top-color: #ff80ff;
+        border-bottom: 0;
+        margin-left: -20px;
+        margin-bottom: -20px;
+    }
+}
+
+.clickable:hover {
     cursor: pointer;
-    background-color: rgb(160, 156, 156);
+}
+
+.username {
+    &:hover {
+        background-color: rgb(160, 156, 156);
+    }
 }
 
 .lightbox {
-    position:fixed; /* keeps the lightbox window in the current viewport */
-    top:0; 
-    left:0; 
-    width:100%; 
+    position: fixed; /* keeps the lightbox window in the current viewport */
+    top: 0; 
+    left: 0; 
+    margin: 0 auto;
+    width:100%;
     height:100%; 
-    background: rgba(0, 0, 0, 0.521);
-    text-align:center;
+    background: $bg-color;
+    text-align: center;
+    overflow-y: auto;
 }
 
 .user-lightbox {
-    position:fixed;
-    top:0; 
-    left:0; 
-    width:100%; 
-    height:100%; 
-    background: rgba(124, 14, 14, 0.87);
+    position: fixed;
+    top: 0; 
+    width: inherit; 
+    height: 100%; 
+    background: $bg-color;
     text-align:center;
+    overflow-y: auto;
     z-index: 9999;
 }
+
 .user {
     background-color: rgb(199, 170, 6);
 }
@@ -58,8 +113,116 @@
     background-color: gold;
 }
 
+.nice-width {
+    width: 80%;
+    margin: 20px auto;
+}
+
+.grey-bg {
+    background-color: $bg-color-grey;
+}
+
+.bg {
+    background-color: $bg-color;
+}
+
+.dark-bg {
+    background-color: $bg-color-dark;
+}
+
 .row {
-    width: 50%;
-    background-color: rgb(187, 141, 14);
     margin: 10px auto;
+}
+
+.full-height {
+    height: 100%;
+}
+
+.shadow-hard {
+    box-shadow: $bg-shadow-hard;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.welcome-text {
+    padding: 15px;
+}
+
+.left {
+    float: left;
+}
+
+.grid { 
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-gap: 20px;
+    align-items: stretch;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.back {
+    font-size: 40px;
+    transition: 0.25s;
+    padding: 5px;
+    margin: 5px;
+    border: none;
+    text-align: center;
+    display: inline-block;
+    //box-shadow: $bg-shadow;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.384);
+        border-radius: 15px;
+        box-shadow: $bg-shadow-hard;
+    }
+}
+
+.new-comment {
+    background-color: $bg-color-grey;
+    margin: 20px 0;
+    padding: 10px;
+
+    input {
+        display: inline-block;
+        margin: 10px;
+    }
+
+    button {
+        background-color: #0bbd0b;
+        border: none;
+        border-radius: 4px;
+        padding: 15px;
+        text-align: center;
+        font-weight: 500;
+        transition: 0.25s;
+
+        &:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+    }
+
+    input {
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+    .movie {
+        margin: 0;
+        padding: 0;
+    }
 }

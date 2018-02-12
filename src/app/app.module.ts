@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
+import { FormsModule } from '@angular/forms';
 import { MoviepageComponent } from './moviepage/moviepage.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DatabaseService } from './database.service';
@@ -21,12 +22,12 @@ import { AngularFirestore } from 'angularfire2/firestore';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
+    FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
-  providers: [DatabaseService, AngularFirestore],
+  providers: [DatabaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

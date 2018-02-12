@@ -11,6 +11,7 @@ export class MoviepageComponent implements OnInit {
   constructor(public dataservice: DatabaseService) { }
 
   moviesCount: number;
+  movieAverage: any;
 
   movieData: any;
   commentData: any;
@@ -21,9 +22,15 @@ export class MoviepageComponent implements OnInit {
   lightBoxMovie: any;
   lightBoxMovieSynopsis: any;
 
-  movieId: number;
+  movieId: number; // movie id that we get from image click
+  commentId: number; // commentId that we determine for a new comment
+
   userName: string;
   usersComments: any;
+
+  newUser: string;
+  newComment: string;
+  newRating: any;
 
   ngOnInit() {
     // get all movies
@@ -37,18 +44,29 @@ export class MoviepageComponent implements OnInit {
 
   // subscribe and get all movie comments with specified id for the lightbox view
   showLightBox(id) {
-    this.dataservice.getComments(id).valueChanges().subscribe ( data => {
+    this.dataservice.getComments().valueChanges().subscribe ( data => {
 
       console.log(data);
+      this.commentId = data.length;
 
       this.commentData = data.filter( fil => fil.movieId == id);
       console.log(this.commentData);
 
+      var total = 0; // total number of rating
+      for(var i=0; i < this.commentData.length; i++) {
+        console.log(this.commentData[i].rating);
+        total = total + parseInt(JSON.stringify(this.commentData[i].rating));
+      }
+
+      console.log('total rating: ' + total);
+
+      this.movieAverage = total / this.commentData.length; // calulate user avg rating
+
       this.movieId = id;
 
-      this.lightBoxImg = this.movieData[id-1].image;
-      this.lightBoxMovie = this.movieData[id-1].name;
-      this.lightBoxMovieSynopsis = this.movieData[id-1].synopsis;
+      this.lightBoxImg = this.movieData[id].image;
+      this.lightBoxMovie = this.movieData[id].name;
+      this.lightBoxMovieSynopsis = this.movieData[id].synopsis;
       
       this.lightBox = true;
 
@@ -63,7 +81,7 @@ export class MoviepageComponent implements OnInit {
   }
 
   userComments(usr: string, movieID: number) {
-    this.dataservice.getUserComments(usr).valueChanges().subscribe( data => {
+    this.dataservice.getComments().valueChanges().subscribe( data => {
       //console.log(data);
       this.usersComments = data.filter( fil => fil.username == usr);
       console.log(this.usersComments);
@@ -71,7 +89,27 @@ export class MoviepageComponent implements OnInit {
     });
   }
 
-  filter(arr, term) {
-    
+  getComment() {
+    this.dataservice.getComments().valueChanges().subscribe(data => this.commentId = data.length); // check correct comment id before sending
+    console.log(this.commentId);
+    this.newRating = parseInt(this.newRating);
+    this.dataservice.sendNewComment(this.newComment, this.newUser, this.newRating, this.movieId, this.commentId);
+    this.eraseInputs();
   }
+
+  closeLightBox() {
+    this.lightBox = false;
+    this.eraseInputs();
+  }
+
+  closeUserLightBox() {
+    this.userLightBox = false;
+    this.eraseInputs();
+  }
+
+  eraseInputs() {
+     this.newUser = '';
+     this.newComment = '';
+  }
+
 }
