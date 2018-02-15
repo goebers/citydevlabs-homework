@@ -1,11 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 
+$author-color: #3B94D9;
 $primary-font: 'Roboto Condensed', sans-serif;
-$card-color: aqua;
+$card-color: white;
+$bg-color: #eee;
+$bg-color-comment: #ff80ff;
 $bg-color-grey: #efefef;
 $bg-color-dark: rgb(9, 60, 128);
-$bg-color: rgb(10, 82, 175);
+$bg-color-white: white;
+$bg-color-blue: #81D4FA;
+$bg-color-indigo: #3F51B5;
 $bg-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 $bg-shadow-hard: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 
@@ -30,10 +35,12 @@ h1, h2, h3, h4, p {
 .movie {
     background-color: $card-color;
     display: block;
+    position: relative;
     text-align: center;
     box-shadow: $bg-shadow;
     transition: 0.25s;
     padding: 20px;
+    border-radius: 10px;
 
     &:hover {
         box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
@@ -41,34 +48,32 @@ h1, h2, h3, h4, p {
 }
 
 .movie-info {
-    background-color: aqua;
+    background-color: $card-color;
     display: block;
     text-align: center;
+    border-radius: 0;
 }
 
 .comments {
     background-color: $bg-color-grey;
-    padding: 35px 10px
+    padding: 10px;
+}
+
+.comment-wrapper {
+    width: 80%;
+    margin: 20px auto;
 }
 
 .comment {
     position: relative;
-	background: #ff80ff;
+	background-color: $bg-color-comment;
     border-radius: .4em;
     margin: 35px 10px;
 
-    &::after{
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        width: 0;
-        height: 0;
-        border: 20px solid transparent;
-        border-top-color: #ff80ff;
-        border-bottom: 0;
-        margin-left: -20px;
-        margin-bottom: -20px;
+    h2 {
+        white-space: pre-wrap;
+        padding: 15px;
+        text-align: left;
     }
 }
 
@@ -77,8 +82,11 @@ h1, h2, h3, h4, p {
 }
 
 .username {
+    color: $author-color;
+    text-decoration: none;
+    
     &:hover {
-        background-color: rgb(160, 156, 156);
+        text-decoration: underline;
     }
 }
 
@@ -89,7 +97,7 @@ h1, h2, h3, h4, p {
     margin: 0 auto;
     width:100%;
     height:100%; 
-    background: $bg-color;
+    background: $bg-color-white;
     text-align: center;
     overflow-y: auto;
 }
@@ -99,18 +107,10 @@ h1, h2, h3, h4, p {
     top: 0; 
     width: inherit; 
     height: 100%; 
-    background: $bg-color;
+    background: $bg-color-white;
     text-align:center;
     overflow-y: auto;
     z-index: 9999;
-}
-
-.user {
-    background-color: rgb(199, 170, 6);
-}
-
-.user-listings {
-    background-color: gold;
 }
 
 .nice-width {
@@ -120,6 +120,10 @@ h1, h2, h3, h4, p {
 
 .grey-bg {
     background-color: $bg-color-grey;
+}
+
+.blue-bg {
+    background-color: $bg-color-blue;
 }
 
 .bg {
@@ -140,6 +144,14 @@ h1, h2, h3, h4, p {
 
 .shadow-hard {
     box-shadow: $bg-shadow-hard;
+}
+
+#newRating {
+    background-color: $bg-color-white;
+}
+
+label {
+    color: $bg-color-white;
 }
 
 .full-width {
@@ -176,28 +188,33 @@ h1, h2, h3, h4, p {
 .back {
     font-size: 40px;
     transition: 0.25s;
-    padding: 5px;
-    margin: 5px;
+    height: 100%;
     border: none;
     text-align: center;
     display: inline-block;
-    //box-shadow: $bg-shadow;
+    background-color: $bg-color-blue;
 
     &:hover {
         background-color: rgba(0, 0, 0, 0.384);
-        border-radius: 15px;
-        box-shadow: $bg-shadow-hard;
+        box-shadow: $bg-shadow;
+        cursor: pointer;
     }
 }
 
 .new-comment {
-    background-color: $bg-color-grey;
+    background-color: $bg-color-indigo;
     margin: 20px 0;
     padding: 10px;
+
+    .new-comment-input {
+        max-height: 150px;
+        overflow: auto;
+    }
 
     input {
         display: inline-block;
         margin: 10px;
+        padding: 10px;
     }
 
     button {
@@ -213,16 +230,23 @@ h1, h2, h3, h4, p {
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
         }
     }
-
-    input {
-        padding: 10px;
-    }
 }
 
+.hidden {
+    overflow-y: hidden;
+    height: 0; 
+}
+
+// small mobile devices
 @media screen and (max-width: 480px) {
 
     .movie {
         margin: 0;
         padding: 0;
+    }
+
+    // get all available real estate when viewing comments on mobile
+    .comment-wrapper {
+        width: 100%;
     }
 }

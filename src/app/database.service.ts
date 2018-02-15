@@ -1,3 +1,4 @@
+import { MoviepageComponent } from './moviepage/moviepage.component';
 import { query } from '@angular/core/src/render3/instructions';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList  } from 'angularfire2/database';
@@ -13,18 +14,20 @@ export class DatabaseService {
   movies: AngularFireList<any>;
   comments: AngularFireList<any>;
 
+  // returns observable of movies
   getMovies() {
     this.movies = this.db.list('/movie');
     return this.movies;
   }
 
-  // returns an observable
+  // returns observable of comments
   getComments() {
     this.comments = this.db.list('/movieComments/');
     return this.comments;
   }
 
-  sendNewComment(comment: string, usr: string, rating: string, movieId: number, commentId: number) {
+  // adds new comment to database
+  sendNewComment(comment: string, usr: string, rating: string, movieId: number, commentId: number): boolean {
     var ref = firebase.database().ref();
     
     var base = '/movieComments/' + commentId;
@@ -34,5 +37,7 @@ export class DatabaseService {
     ref.child(base + '/movieId').set(movieId);
     ref.child(base + '/rating').set(rating);
     ref.child(base + '/username').set(usr);
+
+    return true;
    }
 }

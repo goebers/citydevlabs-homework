@@ -1,8 +1,8 @@
-<div class="welcome-text grey-bg full-width">
+<div class="welcome-text blue-bg full-width">
   <h1 class="font-weight-bold font-italic">Welcome to movie review place</h1>
 </div>
 
-<div class="container bg shadow-hard">
+<div id="main" class="container bg shadow-hard"> <!-- main container -->
   <div class="wrapper grid">
     <div (click)="showLightBox(movie.id)" class="movie col-md clickable nice-width" *ngFor="let movie of movieData">
       <h1 class="movie-name">{{ movie.name }}</h1>
@@ -12,92 +12,105 @@
       <p>IMDb rating: {{movie.rating }}/5</p>
     </div>
 
-    <div class="lightbox dark-bg" *ngIf="lightBox">
-        <div class="welcome-text grey-bg full-width">
-          <div (click)="closeLightBox()" class="btn back left">
-            <i class="fa fa-arrow-left inline" aria-hidden="true"></i>
-            <h4 class="inline align-middle">go back</h4>
-          </div>
-          <h1 class="font-weight-bold font-italic inline">{{ lightBoxMovie }}</h1>
+    <div id="movieLightBox" class="lightbox" *ngIf="lightBox"> <!-- movie lightbox -->
+      <div class="welcome-text blue-bg full-width">
+        <div (click)="closeLightBox()" class="back left">
+          <i class="fa fa-arrow-left inline" aria-hidden="true"></i>
+          <h4 class="inline align-middle">Go back</h4>
         </div>
-        <div class="container no-padding bg shadow-hard">
+        <h1 class="font-weight-bold font-italic inline">{{ lightBoxMovie }}</h1>
+      </div>
+      <div class="container no-padding bg shadow-hard">
+        <div class="wrapper">
+
+          <div class="movie movie-info">
+            <div class="row">
+              <div class="col-sm">
+                <h1 class="movie-name">{{ lightBoxMovie }}</h1>
+                <img class="movie-image" [src]="lightBoxImg" [alt]="movieId">
+                <h3> {{ lightBoxMovieYear }} </h3>
+                <p>{{ lightBoxMovieSynopsis }}</p>
+                <p>Users avg. rating: {{ movieAverage | ratinground }} </p>
+              </div>
+            </div>
+          </div>
+
+          <h1 style="color: black; padding: 10px;">Comments [{{ commentData.length }}]</h1>
+
+          <div class="comments">
+            <div class="comment-wrapper" *ngFor="let comment of commentData">
+              <div class="comment row">
+                <h2 class="col-sm">{{ comment.comment }}</h2>
+              </div>
+              <h3 (click)="userReviews(comment.username)" class="username inline text-left clickable">@{{ comment.username }}</h3>
+              <span class="inline">&nbsp;-&nbsp;</span>
+              <h3 class="inline text-right">{{ comment.rating }}/5</h3>
+            </div>
+          </div>
+
+          <h1 style="color: black; padding: 10px;">Rate the movie!</h1>
+
+          <div class="new-comment full-width indigo">
+            <label><b>Username</b></label>
+            <br>
+            <input class="nice-width" [(ngModel)]="newUser" type="text" placeholder="user22">
+            <br>
+            <label><b>Comment</b></label>
+            <br>
+            <textarea class="nice-width new-comment-input" [(ngModel)]="newComment" type="text" placeholder="great movie!"></textarea>
+            <br>
+            <label><b>Rating</b></label>
+            <br>
+            <select id="newRating" class="nice-width" *ngIf="lightBox">
+              <option value="0" hidden selected="selected">1 - 5</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <br>
+            <button class="nice-width clickable" (click)="validateComment()">Send rating</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="user-lightbox full-width" *ngIf="userLightBox"> <!-- user lightbox -->
+        <div class="welcome-text blue-bg full-width">
+          <div (click)="closeUserLightBox()" class="back left">
+            <i class="fa fa-arrow-left inline" aria-hidden="true"></i>
+            <h4 class="inline align-middle">Go back</h4>
+          </div>
+          <h1 class="font-weight-bold font-italic inline">@{{ userName }}'s ratings</h1>
+        </div>
+        <div class="container bg shadow-hard">
+
           <div class="wrapper">
-                
-              <div class="movie movie-info">
-                <div class="row">
-                    <div class="col-sm">
-                    <img class="movie-image" [src]="lightBoxImg" [alt]="movieId">
-                  </div>
-                  <div class="col-sm">
-                    <h1 class="movie-name">{{ lightBoxMovie }}</h1>
-                    <p>{{ lightBoxMovieSynopsis }}</p>
-                    <p>Users avg. rating: {{ movieAverage }} </p>
-                  </div>
-                  </div>
-              </div>
 
-              <h1 style="color: white; padding: 10px;">Comments [{{ commentData.length }}]</h1>
-
-              <div class="comments">
-                <div *ngFor="let comment of commentData">
-                  <div class="comment">
-                    <h2>{{ comment.comment }}</h2>
-                    <h3>{{ comment.rating }}/5</h3>
-                  </div>
-                  <h3 (click)="userReviews(comment.username)" class="username clickable">{{ comment.username }}</h3>
-                </div>
-              </div>
-
-              <h1 style="color: white; padding: 10px;">Leave a nice comment</h1>
-
-              <div class="new-comment full-width">
-                <label>Username</label>
-                <br>
-                <input class="nice-width" [(ngModel)]="newUser" type="text" placeholder="user22" >
-                <br>
-                <label>Comment</label>
-                <br>
-                <input class="nice-width" [(ngModel)]="newComment" type="text" placeholder="great movie!">
-                <br>
-                <label>Rating</label>
-                <br>
-                <select class="nice-width" [(ngModel)]="newRating">
-                    <option value="" disabled selected hidden>1 - 5</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </select>
-                <br>
-                <button class="nice-width" (click)="getComment()">Send comment</button>
-              </div>
-        
-          <div class="user-lightbox container full-width" *ngIf="userLightBox">
-            <h1 (click)="closeUserLightBox()">go back to {{ lightBoxMovie }}</h1>
             <div class="user">
-              <h1>Listings for {{ userName }}</h1>
 
               <div class="user-listings" *ngFor="let usrComment of usersComments">
                 <div class="row">
-                  <div class="movie-image col-sm">
-                      <img class="movie movie-image" [src]="movieData[usrComment.movieId].image">
+                  <div class="movie-info col-sm">
+                    <h1> {{ movieData[usrComment.movieId].name }} </h1>
+                    <img class="movie-image" [src]="movieData[usrComment.movieId].image">
+                    <h3> {{ movieData[usrComment.movieId].year }} </h3>
+                    <p> {{ movieData[usrComment.movieId].synopsis }} </p>
+                    <div class="comment-wrapper">
+                      <div class="comment row">
+                          <h2 class="col-sm"> {{ usrComment.comment }}</h2>
+                      </div>
+                      <p class="inline">&nbsp;-&nbsp;</p>
+                      <h3 class="col-sm text-left">rated: {{ usrComment.rating }}/5</h3>
+                    </div>
                   </div>
-                  <div class="movie-info col-sm" >
-                      <h1> {{ movieData[usrComment.movieId].name }} </h1>
-                      <h3> {{ movieData[usrComment.movieId].year }} </h3>
-                      <p> {{ movieData[usrComment.movieId].synopsis }} </p>
-                  </div>
-              </div>
-                <div class="comment row">
-                  <h3> {{ usrComment.comment }} </h3>
                 </div>
               </div>
             </div>
-          </div> <!-- end of user-lightbox -->
-
-        </div>
+          </div>
       </div>
-    </div> <!-- end of lightbox -->
-  </div>
-</div>
+
+    </div> <!-- end of user-lightbox -->
+    
+  </div> <!-- end of lightbox -->
+</div> <!-- end of main container -->

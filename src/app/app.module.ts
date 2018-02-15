@@ -13,12 +13,14 @@ import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/dat
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from '../environments/environment';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { RatingroundPipe } from './ratinground.pipe';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    MoviepageComponent
+    MoviepageComponent,
+    RatingroundPipe
   ],
   imports: [
     BrowserModule,
