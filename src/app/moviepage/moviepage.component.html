@@ -53,11 +53,11 @@
           <div class="new-comment full-width indigo">
             <label><b>Username</b></label>
             <br>
-            <input class="nice-width" [(ngModel)]="newUser" type="text" placeholder="user22">
+            <input class="nice-width" [(ngModel)]="newUser" maxlength="15" type="text" placeholder="user22">
             <br>
             <label><b>Comment</b></label>
             <br>
-            <textarea class="nice-width new-comment-input" [(ngModel)]="newComment" type="text" placeholder="great movie!"></textarea>
+            <textarea class="nice-width new-comment-input" [(ngModel)]="newComment" maxlength="500" type="text" placeholder="great movie!"></textarea>
             <br>
             <label><b>Rating</b></label>
             <br>
